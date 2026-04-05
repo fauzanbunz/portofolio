@@ -130,6 +130,7 @@
             border: 1px solid #141432;
             transition: all 0.4s ease;
             will-change: transform, border-color, box-shadow; /* Optimasi GPU */
+            cursor: pointer;
         }
         
         .portfolio-card:hover {
@@ -269,16 +270,121 @@
             mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
         }
+
+        /* --- NEW: Edge Lens / Flare Highlights --- */
+        .edge-flare-container {
+            position: fixed;
+            top: 0;
+            width: 1px;
+            height: 100vh;
+            z-index: 9999;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        .edge-flare-left { left: 0; border-left: 1px solid rgba(0,243,255,0.05); }
+        .edge-flare-right { right: 0; border-right: 1px solid rgba(0,243,255,0.05); }
+
+        .flare-pulse {
+            position: absolute;
+            left: -3px; /* Center the flare on the line */
+            width: 6px;
+            height: 50vh;
+            background: linear-gradient(to bottom, transparent, rgba(0,243,255,0.6), #fff, rgba(0,243,255,0.6), transparent);
+            box-shadow: 0 0 15px 5px rgba(0, 243, 255, 0.5), 0 0 40px 10px rgba(0, 243, 255, 0.2);
+            border-radius: 100%;
+            top: -60vh; /* Start off-screen */
+            will-change: transform, opacity;
+            animation: edge-flare-move 12s linear infinite;
+        }
+        .flare-pulse-left {
+            animation-delay: 0s;
+        }
+        .flare-pulse-right {
+            animation-delay: 6s; /* Offset so they don't move together perfectly */
+        }
+        
+        @keyframes edge-flare-move {
+            0% { transform: translateY(0); opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(220vh); opacity: 0; }
+        }
+
+        /* --- NEW: Logo Glitch & Blink Styles --- */
+        @keyframes logo-hex-blink {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(255,0,127,0.8)); }
+            2%, 4% { opacity: 0.2; filter: none; }
+            3% { opacity: 1; }
+            5% { opacity: 0.8; }
+            50% { opacity: 1; filter: drop-shadow(0 0 10px rgba(255,0,127,0.8)); }
+            52% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(255,0,127,0.5)); }
+            53% { opacity: 1; }
+        }
+        .animate-logo-blink {
+            animation: logo-hex-blink 3s infinite;
+        }
+        .glitch-active {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-active::before,
+        .glitch-active::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
+        }
+        .glitch-active::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff007f;
+            clip-path: inset(0 0 0 0);
+            animation: glitch-anim-1 3s infinite linear alternate-reverse;
+        }
+        .glitch-active::after {
+            left: -2px;
+            text-shadow: 2px 0 #00f3ff;
+            clip-path: inset(0 0 0 0);
+            animation: glitch-anim-2 3.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim-1 {
+            0%, 100% { clip-path: inset(20% 0 80% 0); transform: translate(0); }
+            5% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 1px); }
+            10% { clip-path: inset(40% 0 50% 0); transform: translate(2px, -1px); }
+            15% { clip-path: inset(80% 0 5% 0); transform: translate(-1px, 2px); }
+            20%, 95% { clip-path: inset(0 0 0 0); transform: translate(0); } 
+        }
+        @keyframes glitch-anim-2 {
+            0%, 100% { clip-path: inset(10% 0 60% 0); transform: translate(0); }
+            7% { clip-path: inset(30% 0 20% 0); transform: translate(2px, -1px); }
+            12% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 2px); }
+            17% { clip-path: inset(20% 0 50% 0); transform: translate(1px, -2px); }
+            22%, 92% { clip-path: inset(0 0 0 0); transform: translate(0); } 
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-pink selection:text-white">
+<body class="antialiased selection:bg-brand-pink selection:text-white relative">
+
+    <!-- NEW: Edge Lens/Flare Highlights -->
+    <div class="edge-flare-container edge-flare-left">
+        <div class="flare-pulse flare-pulse-left"></div>
+    </div>
+    <div class="edge-flare-container edge-flare-right">
+        <div class="flare-pulse flare-pulse-right"></div>
+    </div>
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-5 border-b border-transparent">
         <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
             <a href="#" class="font-display font-bold text-2xl tracking-widest text-white uppercase flex items-center gap-2">
-                <i class="ph-fill ph-hexagon text-brand-pink text-3xl"></i>
-                FZN<span class="text-brand-cyan">BNZ</span>
+                <i class="ph-fill ph-hexagon text-brand-pink text-3xl animate-logo-blink"></i>
+                <div class="flex items-center">
+                    <span id="logo-typewriter" data-text=""></span>
+                    <span id="logo-cursor" class="w-2 h-6 bg-brand-cyan inline-block blinking-cursor ml-1"></span>
+                </div>
             </a>
             <div class="hidden md:flex space-x-10 text-sm font-bold tracking-widest uppercase">
                 <a href="#home" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:text-brand-pink hover:neon-text-pink transition-all duration-300">Sys.Home</a>
@@ -781,7 +887,7 @@
             <div class="max-w-2xl mx-auto reveal">
                 <p class="text-brand-cyan font-bold tracking-[0.2em] uppercase mb-4">>> End_of_Line</p>
                 <h2 class="font-display text-4xl md:text-6xl font-bold mb-6 uppercase">Initialize <br> <span class="text-gradient">Collaboration</span></h2>
-                <p class="text-gray-400 text-lg mb-10 font-light">hit me to fznbunny@gmail.com Signal is open for contract work, Web3 protocols, and NFT generation.</p>
+                <p class="text-gray-400 text-lg mb-10 font-light">Signal is open for contract work, Web3 protocols, and NFT generation.</p>
                 
                 <button onclick="openModal()" class="inline-flex items-center gap-3 px-10 py-5 cyber-border-pink bg-cyber-900/80 text-brand-pink font-bold hover:bg-brand-pink hover:text-white transition-all uppercase tracking-widest group cursor-pointer">
                     <i class="ph-fill ph-envelope-simple text-2xl group-hover:animate-pulse"></i>
@@ -827,6 +933,15 @@
                 </button>
             </form>
         </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-[110] flex items-center justify-center bg-cyber-900/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 p-4" onclick="closeLightbox(event)">
+        <!-- Close Button -->
+        <button class="absolute top-6 right-6 text-brand-pink hover:text-white transition-colors z-[120]" onclick="closeLightbox(event, true)">
+            <i class="ph ph-x text-4xl"></i>
+        </button>
+        <img id="lightboxImage" src="" alt="Enlarged Portfolio" class="max-w-full max-h-[90vh] rounded-lg shadow-[0_0_50px_rgba(0,243,255,0.3)] cyber-border-cyan transform scale-95 transition-transform duration-300 object-contain">
     </div>
 
     <!-- Footer -->
@@ -1150,6 +1265,65 @@
         }
 
         setTimeout(typeWriter, 1200);
+
+        // --- NEW: Logo Typewriter & Glitch Effect ---
+        const logoTargetText = "FAUZANBUNZ";
+        const logoElement = document.getElementById('logo-typewriter');
+        const logoCursor = document.getElementById('logo-cursor');
+        let logoTypingIndex = 0;
+
+        function typeLogo() {
+            if (logoTypingIndex < logoTargetText.length) {
+                // Tambahkan huruf satu per satu
+                logoElement.textContent += logoTargetText.charAt(logoTypingIndex);
+                logoTypingIndex++;
+                // Kecepatan ngetik logo
+                setTimeout(typeLogo, Math.random() * 100 + 100); 
+            } else {
+                // Sembunyikan kursor setelah selesai ngetik
+                logoCursor.style.display = 'none';
+                
+                // Tambahkan efek glitch
+                logoElement.setAttribute('data-text', logoTargetText);
+                logoElement.classList.add('glitch-active');
+            }
+        }
+
+        // Mulai ketik logo setelah delay kecil
+        setTimeout(typeLogo, 800);
+
+        // --- NEW: Image Lightbox Functionality ---
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxImage = document.getElementById('lightboxImage');
+        
+        portfolioItems.forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img'); // Ambil gambar di dalam card
+                if (img) {
+                    lightboxImage.src = img.src;
+                    lightboxModal.classList.remove('hidden');
+                    // Delay kecil untuk memicu transisi opacity & scale
+                    setTimeout(() => {
+                        lightboxModal.classList.remove('opacity-0');
+                        lightboxImage.classList.remove('scale-95');
+                        lightboxImage.classList.add('scale-100');
+                    }, 10);
+                }
+            });
+        });
+
+        // Tutup lightbox jika mengklik background atau tombol close
+        function closeLightbox(e, force = false) {
+            if (force || e.target === lightboxModal) {
+                lightboxModal.classList.add('opacity-0');
+                lightboxImage.classList.remove('scale-100');
+                lightboxImage.classList.add('scale-95');
+                setTimeout(() => {
+                    lightboxModal.classList.add('hidden');
+                    lightboxImage.src = ''; // Bersihkan gambar
+                }, 300); // Waktu yang sama dengan durasi transisi
+            }
+        }
 
     </script>
 </body>
