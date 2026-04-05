@@ -364,6 +364,33 @@
             17% { clip-path: inset(20% 0 50% 0); transform: translate(1px, -2px); }
             22%, 92% { clip-path: inset(0 0 0 0); transform: translate(0); } 
         }
+
+        /* --- NEW: Image Reveal Scanner Styles --- */
+        @keyframes scan-reveal-bounce {
+            0%, 5% { clip-path: inset(0 0 100% 0); }
+            45%, 55% { clip-path: inset(0 0 0% 0); }
+            95%, 100% { clip-path: inset(0 0 100% 0); }
+        }
+        @keyframes scan-line-bounce {
+            0%, 5% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            45%, 55% { top: calc(100% - 4px); opacity: 1; }
+            90% { opacity: 1; }
+            95%, 100% { top: 0%; opacity: 0; }
+        }
+        .img-reveal-layer {
+            animation: scan-reveal-bounce 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .neon-scanner-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #00f3ff;
+            box-shadow: 0 0 15px 5px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.4);
+            z-index: 10;
+            animation: scan-line-bounce 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-pink selection:text-white relative">
@@ -405,16 +432,16 @@
     <!-- Hero Section (Parallax) -->
     <section id="home" class="parallax-hero overflow-hidden">
         
-        <!-- NEW: Matrix Canvas applied here -->
+        <!-- Matrix Canvas applied here -->
         <canvas class="matrix-canvas absolute inset-0 w-full h-full pointer-events-none matrix-mask opacity-40 mix-blend-screen" style="z-index: 1;"></canvas>
 
         <!-- Canvas Kunang-kunang (Fireflies) -->
         <canvas id="fireflyCanvas" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 2;"></canvas>
 
-        <!-- NEW: TV Wave / Scanline Effect -->
+        <!-- TV Wave / Scanline Effect -->
         <div class="tv-wave"></div>
 
-        <!-- NEW: Radar (Left Side - Hidden on very small screens) -->
+        <!-- Radar (Left Side - Hidden on very small screens) -->
         <div class="hidden lg:block radar-box">
             <div class="radar-grid"></div>
             <div class="radar-crosshair"></div>
@@ -424,7 +451,7 @@
             <div class="absolute top-[70%] left-[30%] w-1.5 h-1.5 bg-brand-cyan rounded-full shadow-[0_0_10px_#00f3ff] animate-ping"></div>
         </div>
 
-        <!-- NEW: Scrolling Random Code (Right Side - Hidden on very small screens) -->
+        <!-- Scrolling Random Code (Right Side - Hidden on very small screens) -->
         <div class="hidden lg:block scrolling-code-box font-mono text-[10px] text-brand-cyan/70 leading-relaxed tracking-wider" id="scrollingCode">
             <!-- Code populated by JS -->
         </div>
@@ -508,7 +535,7 @@
                         </div>
                     </div>
 
-                    <!-- NEW: Extra Skills -->
+                    <!-- Extra Skills -->
                     <div class="mt-8 border-t border-cyber-700 pt-8">
                         <p class="text-brand-yellow font-bold tracking-[0.2em] text-xs uppercase mb-4">>> Extra_Skills</p>
                         <div class="grid grid-cols-2 gap-4">
@@ -555,18 +582,35 @@
                 <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 uppercase">Asset <span class="text-gradient">Registry</span></h2>
             </div>
 
-            <!-- Filter Buttons -->
+            <!-- Filter Buttons (ADDED GAMES FILTER) -->
             <div class="flex justify-center flex-wrap gap-4 mb-12 reveal">
                 <button class="filter-btn active px-8 py-2 bg-brand-cyan text-cyber-900 font-bold uppercase tracking-widest transition-all hover:bg-white hover:shadow-[0_0_15px_#00f3ff]" data-filter="all">ALL_FILES</button>
                 <button class="filter-btn px-8 py-2 cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900" data-filter="nft">NFT_ASSETS</button>
                 <button class="filter-btn px-8 py-2 cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900" data-filter="illustration">ILLUSTRATIONS</button>
+                <button class="filter-btn px-8 py-2 cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900" data-filter="game">GAMES</button>
             </div>
 
             <!-- Portfolio Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolio-grid">
                 
+                <!-- NEW: GAME CARD -->
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal border-brand-yellow hover:border-brand-yellow hover:shadow-[0_10px_30px_-10px_rgba(252,238,10,0.4)]" data-category="game" data-type="game">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/Gemini_Generated_Image_mhig4mhig4mhig4m.png" alt="Farmer Game" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-cyber-900 via-cyber-900/80 to-transparent">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Game (Playable)</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Isometric Farmer</h3>
+                        <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase">Click to Initialize Engine</p>
+                        <div class="w-12 h-1 bg-brand-yellow mt-3"></div>
+                        
+                        <!-- Play Icon Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i class="ph-fill ph-play-circle text-6xl text-brand-yellow drop-shadow-[0_0_15px_rgba(252,238,10,0.8)]"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ALL FAUZANBUNZ ITEMS SET TO NFT -->
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/03.jpg" alt="Artwork 03" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -575,7 +619,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/3.jpg" alt="Concept 3" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -584,7 +628,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/6.jpg" alt="Vision 6" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -593,7 +637,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/d.jpg" alt="D-Series" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -602,7 +646,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/iced.jpg" alt="Iced Out" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -611,7 +655,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/leon.gif" alt="Leon Animated" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -620,7 +664,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/meow%202.jpg" alt="Meow Vol. 2" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -629,7 +673,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/meow.jpg" alt="Meow Original" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -638,7 +682,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/monad%20copy.jpg" alt="Monad Realm" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -647,7 +691,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/recycle.jpg" alt="Recycle Concept" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -656,7 +700,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/solanabeach%20copy%20d.jpg" alt="Solana Beach" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -665,7 +709,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/tes1%20copy%203.jpg" alt="Test Series 1" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -674,7 +718,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/z.jpg" alt="Z-Dimension" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -684,7 +728,7 @@
                 </div>
 
                 <!-- ADDITIONS TO NFT CATEGORY -->
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/_0010_brown%20copy.jpg" alt="Brown Copy" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -693,7 +737,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/2.jpg" alt="Concept 2" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -702,7 +746,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/04.jpg" alt="Artwork 04" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -711,7 +755,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/sodead.jpg" alt="So Dead" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -720,7 +764,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/_0000s_0022_bag%20copy.jpg" alt="Bag Copy" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -729,7 +773,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/4.jpg" alt="Concept 4" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -738,7 +782,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/mongol_copy.jpg" alt="Mongol Copy" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -747,7 +791,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/solanabeach%20gg.jpg" alt="Solana Beach GG" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
@@ -757,7 +801,7 @@
                 </div>
 
                 <!-- ADDITIONS TO ILLUSTRATION CATEGORY -->
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/rival.jpg" alt="Rival" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -766,7 +810,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/where%20is%20the%20future%20zzzzzz%20copy.jpg" alt="Where is the future" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -775,7 +819,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/doberman.jpg" alt="Doberman" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -784,7 +828,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/hellhound%2022.jpg" alt="Hellhound 22" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -793,7 +837,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/hellhound1.jpg" alt="Hellhound 1" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -802,7 +846,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/akuma.jpg" alt="Akuma" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -811,7 +855,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/akuma3%20copy.jpg" alt="Akuma 3" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -820,7 +864,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/ambience2.jpg" alt="Ambience 2" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -829,7 +873,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/anthem.jpg" alt="Anthem" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -838,7 +882,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/army%20of%20toad.jpg" alt="Army of Toad" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -847,7 +891,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/cilik.jpg" alt="Cilik" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -856,7 +900,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/mermaid.jpg" alt="Mermaid" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -865,7 +909,7 @@
                     </div>
                 </div>
 
-                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration" data-type="image">
                     <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/reese%20copy.jpg" alt="Reese" class="w-full h-full object-cover">
                     <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
                         <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
@@ -943,6 +987,693 @@
         </button>
         <img id="lightboxImage" src="" alt="Enlarged Portfolio" class="max-w-full max-h-[90vh] rounded-lg shadow-[0_0_50px_rgba(0,243,255,0.3)] cyber-border-cyan transform scale-95 transition-transform duration-300 object-contain">
     </div>
+
+    <!-- NEW: GAME ENGINE MODAL -->
+    <div id="gameModal" class="fixed inset-0 z-[150] flex items-center justify-center bg-cyber-900/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 p-2 md:p-6">
+        <!-- Close Button -->
+        <button class="absolute top-4 right-4 md:top-6 md:right-6 text-brand-pink hover:text-brand-pink/50 transition-colors z-[160]" onclick="closeGameModal(event, true)">
+            <i class="ph-fill ph-x-circle text-5xl bg-cyber-900 rounded-full drop-shadow-[0_0_15px_rgba(255,0,127,0.8)]"></i>
+        </button>
+        <!-- Iframe Container -->
+        <div class="w-full h-full max-w-7xl relative rounded-xl overflow-hidden cyber-border-cyan shadow-[0_0_50px_rgba(0,243,255,0.3)] bg-black">
+            <iframe id="gameIframe" class="w-full h-full border-0 bg-black"></iframe>
+        </div>
+    </div>
+
+    <!-- RAW GAME CODE (Disembunyikan, akan dipanggil oleh JavaScript) -->
+    <textarea id="raw-game-code" style="display:none;">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi Peternak Isometrik - Extreme Hard Mode</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+  <script src="https://unpkg.com/lucide@latest"><\/script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+    
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background-color: #87ceeb;
+      transition: background-color 2s ease;
+    }
+
+    .night-mode { background-color: #1e293b !important; }
+    .rain-mode { background-color: #64748b !important; }
+    .night-mode.rain-mode { background-color: #0f172a !important; }
+
+    @keyframes float-up {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-60px); opacity: 0; }
+    }
+    
+    .float-msg {
+      animation: float-up 1.2s ease-out forwards;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .ui-panel {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 3px solid #e2e8f0;
+    }
+
+    canvas { image-rendering: pixelated; }
+
+    @keyframes pop-in {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-content { animation: pop-in 0.2s ease-out forwards; }
+
+    #levelup-splash h2 {
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 5px 15px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body class="relative w-full h-screen overflow-hidden select-none">
+
+  <canvas id="gameCanvas" class="absolute inset-0 cursor-crosshair"></canvas>
+
+  <!-- Level Up Splash Overlay -->
+  <div id="levelup-splash" class="fixed inset-0 flex flex-col items-center justify-center z-[200] pointer-events-none hidden opacity-0 transition-opacity duration-700">
+    <img src="https://raw.githubusercontent.com/fauzanbunz/farmer/main/viaductk-particle-18611.gif" class="absolute w-full h-full object-cover mix-blend-screen opacity-70" alt="Partikel Naik Level" />
+    <div class="relative flex flex-col items-center text-center px-4">
+      <h2 class="text-7xl md:text-9xl font-black text-white animate-bounce tracking-tighter">LEVEL UP!</h2>
+      <p id="levelup-detail" class="text-3xl md:text-5xl font-black text-yellow-300 drop-shadow-lg -mt-4 uppercase italic">SEKARANG LEVEL 2</p>
+      <div class="mt-4 bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border-2 border-white/50">
+        <p id="levelup-title-text" class="text-white font-bold text-xl md:text-2xl">Peternak Magang</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="absolute top-24 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- UI Navbar -->
+  <div class="absolute top-0 left-0 w-full pointer-events-none z-10 p-4 flex flex-wrap md:flex-nowrap justify-between items-start gap-4">
+    
+    <div class="pointer-events-auto ui-panel rounded-2xl p-2.5 shadow-lg flex items-center gap-3 w-full md:w-auto">
+      <div class="relative">
+        <div class="bg-amber-100 w-12 h-12 rounded-xl flex items-center justify-center border-2 border-amber-400 text-2xl shadow-sm">👨‍🌾</div>
+        <div id="level-badge" class="absolute -bottom-1 -right-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">LV 1</div>
+      </div>
+      <div class="w-44">
+        <h1 id="player-title" class="font-bold text-slate-800 text-sm truncate">Peternak Pemula</h1>
+        <div class="mt-1 w-full bg-slate-200 rounded-full h-2 overflow-hidden shadow-inner">
+          <div id="xp-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+        <div class="flex justify-between items-center mt-0.5">
+          <p class="text-[9px] text-slate-500 font-bold"><span id="xp-text">0/1000</span> XP</p>
+          <p class="text-[9px] text-blue-600 font-bold flex items-center gap-1">
+            <i data-lucide="paw-print" class="w-2 h-2"></i> <span id="animal-count">0</span> Hewan
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pointer-events-auto flex gap-2 w-full md:w-auto justify-center">
+      <button onclick="openModal('shop-modal')" class="ui-panel hover:bg-white text-blue-600 font-bold py-2.5 px-4 rounded-2xl shadow-lg flex items-center gap-2 transition-transform active:scale-95">
+        <i data-lucide="store" class="w-5 h-5"></i> <span class="hidden sm:inline">Shop</span>
+      </button>
+      <button onclick="openModal('market-modal')" class="ui-panel hover:bg-white text-amber-600 font-bold py-2.5 px-4 rounded-2xl shadow-lg flex items-center gap-2 transition-transform active:scale-95">
+        <i data-lucide="badge-dollar-sign" class="w-5 h-5"></i> <span class="hidden sm:inline">Market</span>
+      </button>
+      <button onclick="openModal('storage-modal')" class="ui-panel hover:bg-white text-slate-600 font-bold py-2.5 px-4 rounded-2xl shadow-lg flex items-center gap-2 transition-transform active:scale-95">
+        <i data-lucide="package" class="w-5 h-5"></i> <span class="hidden sm:inline">Storage</span>
+      </button>
+    </div>
+
+    <div class="pointer-events-auto flex gap-2 w-full md:w-auto justify-end">
+      <div class="ui-panel rounded-2xl py-1 px-3 shadow-lg flex items-center gap-2">
+        <span class="text-xl">🌾</span>
+        <div class="text-center">
+          <p class="text-[9px] font-bold text-slate-400 uppercase leading-none">Pakan</p>
+          <p class="font-bold text-slate-800 leading-tight"><span id="feed-count">10</span></p>
+        </div>
+        <button onclick="feedAll()" class="bg-amber-500 hover:bg-amber-600 text-white p-1.5 rounded-lg transition-transform active:scale-90 ml-1 shadow">
+          <i data-lucide="heart" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="ui-panel rounded-2xl py-1 px-4 shadow-lg flex items-center gap-2">
+        <i data-lucide="coins" class="w-6 h-6 text-yellow-500 drop-shadow-sm"></i>
+        <div>
+          <p class="text-[9px] font-bold text-slate-400 uppercase leading-none">Koin</p>
+          <p id="coin-count" class="text-lg font-black text-slate-800 leading-tight">500</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div id="modal-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-50 flex items-center justify-center pointer-events-auto opacity-0 transition-opacity duration-300">
+    <div id="shop-modal" class="hidden bg-white w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border-4 border-slate-100 modal-content">
+      <div class="bg-blue-500 p-4 flex justify-between items-center text-white">
+        <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="store"></i> Beli Hewan Ternak</h2>
+        <button onclick="closeModal()" class="hover:bg-white/20 p-1 rounded-full"><i data-lucide="x"></i></button>
+      </div>
+      <div id="shop-content" class="p-4 space-y-3 max-h-[60vh] overflow-y-auto"></div>
+    </div>
+    <div id="market-modal" class="hidden bg-white w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border-4 border-slate-100 modal-content">
+      <div class="bg-amber-500 p-4 flex justify-between items-center text-white">
+        <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="badge-dollar-sign"></i> Pasar</h2>
+        <button onclick="closeModal()" class="hover:bg-white/20 p-1 rounded-full"><i data-lucide="x"></i></button>
+      </div>
+      <div id="market-content" class="p-4 space-y-3 max-h-[60vh] overflow-y-auto"></div>
+    </div>
+    <div id="storage-modal" class="hidden bg-white w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border-4 border-slate-100 modal-content">
+      <div class="bg-slate-600 p-4 flex justify-between items-center text-white">
+        <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="package"></i> Gudang</h2>
+        <button onclick="closeModal()" class="hover:bg-white/20 p-1 rounded-full"><i data-lucide="x"></i></button>
+      </div>
+      <div class="p-4 grid grid-cols-3 gap-3">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-3xl">🍼</span>
+          <p id="store-milk" class="text-lg font-black text-slate-700">0</p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-3xl">🥚</span>
+          <p id="store-egg" class="text-lg font-black text-slate-700">0</p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-3xl">🧶</span>
+          <p id="store-wool" class="text-lg font-black text-slate-700">0</p>
+        </div>
+      </div>
+      <div class="p-4 pt-0">
+        <button onclick="buyFeed()" class="w-full bg-green-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+           Beli Pakan (5 Koin)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TILE_W = 64, TILE_H = 32, GRID = 8;
+
+    // EXTREME MODE UPDATED: Produksi tiap 60 detik (1 menit)
+    const ITEMS = {
+      chicken: { price: 100, prod: 'egg', rate: 60000, color: '#ffffff', label: 'Ayam' },
+      cow: { price: 250, prod: 'milk', rate: 60000, color: '#f3f4f6', label: 'Sapi' },
+      sheep: { price: 400, prod: 'wool', rate: 60000, color: '#e5e7eb', label: 'Domba' }
+    };
+
+    const MARKET = { egg: 15, milk: 40, wool: 100, feed: 5 };
+
+    const TITLES = [
+      "Peternak Pemula", "Peternak Magang", "Pekerja Keras", "Peternak Ahli", 
+      "Juragan Muda", "Juragan Ternak", "Sultan Ladang", "Dewa Pertanian",
+      "Raja Panen", "Miliarder Desa", "Raja Peternakan", "Penguasa Agrikultur", "Legenda Peternak"
+    ];
+
+    const BARN_FILES = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png', '11.png', '12.png', '13.png'];
+
+    const ASSETS = {
+      grass: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/grasskecil.png',
+      river: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/sungai.png',
+      cowIdle: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/sapi.png',
+      cowWalk: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/sapi%20walk.png',
+      milk: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/kotak.png',
+      skull: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/skull.png',
+      fence: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/pagar.png',
+      henIdle: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/hen_idle.png',
+      henWalk: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/hen_walk.png',
+      egg: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/telur.png',
+      sheepIdle: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/dombaidle.png',
+      sheepWalk: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/domba_walk.png',
+      wool: 'https://raw.githubusercontent.com/fauzanbunz/farmer/main/wol.png'
+    };
+
+    const IMAGES = { barns: [] };
+
+    const state = {
+      coins: 500, xp: 0, level: 1, feed: 10,
+      inventory: { egg: 0, milk: 0, wool: 0 },
+      animals: [], drops: [], clouds: [], stars: [], rainDrops: [],
+      lastTime: 0, timeOfDay: 0, weather: 'clear', lastWeatherChange: 0, lightningFlash: 0,
+      comet: { active: false, x: 0, y: 0, vx: 0, vy: 0 },
+      shake: 0, disasterCooldown: performance.now() + 60000, meteorFlash: 0
+    };
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function init() {
+      lucide.createIcons();
+      window.addEventListener('resize', resize);
+      resize();
+      state.lastWeatherChange = performance.now();
+      generateEnvironment();
+
+      let loadedCount = 0;
+      const keys = Object.keys(ASSETS);
+      const totalImages = keys.length + BARN_FILES.length;
+
+      const onLoadComplete = () => {
+        loadedCount++;
+        if (loadedCount === totalImages) startGame();
+      };
+
+      keys.forEach(key => {
+        IMAGES[key] = new Image();
+        IMAGES[key].onload = onLoadComplete;
+        IMAGES[key].onerror = onLoadComplete;
+        IMAGES[key].src = ASSETS[key];
+      });
+
+      BARN_FILES.forEach((file, idx) => {
+        IMAGES.barns[idx] = new Image();
+        IMAGES.barns[idx].onload = onLoadComplete;
+        IMAGES.barns[idx].onerror = onLoadComplete;
+        IMAGES.barns[idx].src = `https://raw.githubusercontent.com/fauzanbunz/farmer/main/${file}`;
+      });
+    }
+
+    function startGame() {
+      spawnAnimal('cow', 5, 5); 
+      updateUI();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function generateEnvironment() {
+      state.clouds = Array.from({ length: 6 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: 20 + Math.random() * 200,
+        scale: 0.5 + Math.random() * 0.8,
+        speed: 0.1 + Math.random() * 0.3
+      }));
+      state.stars = Array.from({ length: 150 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * (window.innerHeight * 0.6),
+        size: Math.random() * 1.5,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.001 + Math.random() * 0.003
+      }));
+      state.rainDrops = Array.from({ length: 300 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        l: Math.random() * 20 + 10,
+        xs: -2 + Math.random() * 4,
+        ys: Math.random() * 15 + 15
+      }));
+    }
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      generateEnvironment();
+    }
+
+    function openModal(id) {
+      updateUI();
+      const backdrop = document.getElementById('modal-backdrop');
+      backdrop.classList.remove('hidden');
+      setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+      ['shop-modal', 'market-modal', 'storage-modal'].forEach(m => {
+        const modal = document.getElementById(m);
+        if (modal) modal.classList.add('hidden');
+      });
+      const targetModal = document.getElementById(id);
+      if (targetModal) targetModal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      const backdrop = document.getElementById('modal-backdrop');
+      backdrop.classList.add('opacity-0');
+      setTimeout(() => backdrop.classList.add('hidden'), 300);
+    }
+
+    function notify(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const div = document.createElement('div');
+      div.className = `p-3 px-6 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 translate-y-4 opacity-0 transition-all duration-300 ${type === 'error' ? 'bg-red-500 text-white' : 'bg-white text-slate-800'}`;
+      div.innerHTML = `<span>${type === 'error' ? '⚠️' : '✨'}</span> ${msg}`;
+      container.appendChild(div);
+      setTimeout(() => div.classList.remove('translate-y-4', 'opacity-0'), 10);
+      setTimeout(() => { 
+        div.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => div.remove(), 300);
+      }, 3500);
+    }
+
+    function triggerLevelUpSplash(level) {
+      const splash = document.getElementById('levelup-splash');
+      const detail = document.getElementById('levelup-detail');
+      const titleText = document.getElementById('levelup-title-text');
+      detail.innerText = `SEKARANG LEVEL ${level}`;
+      titleText.innerText = TITLES[Math.min(level - 1, TITLES.length - 1)];
+      splash.classList.remove('hidden');
+      setTimeout(() => splash.classList.add('opacity-100'), 10);
+      setTimeout(() => {
+        splash.classList.replace('opacity-100', 'opacity-0');
+        setTimeout(() => splash.classList.add('hidden'), 700);
+      }, 5000);
+    }
+
+    /**
+     * Menambahkan teks animasi melayang saat memanen item
+     */
+    function addFloatingText(text, x, y, color = '#ffffff') {
+      const div = document.createElement('div');
+      div.className = 'absolute font-black text-xl pointer-events-none float-msg z-[200]';
+      div.style.left = `${x}px`;
+      div.style.top = `${y}px`;
+      div.style.color = color;
+      div.innerText = text;
+      document.body.appendChild(div);
+      // Hapus elemen setelah animasi selesai (1.2 detik)
+      setTimeout(() => div.remove(), 1200);
+    }
+
+    // Bencana Alam: Earthquake & Meteor
+    function triggerDisaster(type) {
+      state.shake = 100; // Mulai guncangan layar
+      const aliveAnimals = state.animals.filter(a => !a.isDead);
+      if (aliveAnimals.length > 0) {
+        const killCount = Math.floor(Math.random() * 3) + 1; // 1-3 hewan mati
+        for (let i = 0; i < Math.min(killCount, aliveAnimals.length); i++) {
+          const target = aliveAnimals[Math.floor(Math.random() * aliveAnimals.length)];
+          target.isDead = true;
+          target.deathTime = performance.now();
+        }
+      }
+
+      if (type === 'quake') {
+        notify("Bencana! GEMPA BUMI melanda peternakan!", "error");
+      } else {
+        state.meteorFlash = 1.0;
+        notify("Bencana! METEOR jatuh di peternakan!", "error");
+      }
+      updateUI();
+    }
+
+    function addXP(amount) {
+      if (state.level >= 13) return;
+      state.xp += amount;
+      let xpReq = state.level * 1000; // Progres XP diperlambat drastis
+      let leveledUp = false;
+      while (state.xp >= xpReq && state.level < 13) {
+        state.level++;
+        state.xp -= xpReq;
+        xpReq = state.level * 1000;
+        if (state.level === 13) state.xp = 0;
+        leveledUp = true;
+        if (state.level % 3 === 0) setTimeout(() => {
+           notify("Wabah Virus menyerang di Level " + state.level, "error");
+           state.animals.forEach(a => { if(!a.isDead) { a.isDead = true; a.deathTime = performance.now(); }});
+           updateUI();
+        }, 2000);
+      }
+      if (leveledUp) triggerLevelUpSplash(state.level);
+      updateUI();
+    }
+
+    function spawnAnimal(type, x, y) {
+      state.animals.push({
+        type, x, y, targetX: x, targetY: y, idleUntil: 0, hunger: 1.0,
+        lastProd: performance.now(), hop: 0, id: Math.random(), isDead: false, deathTime: 0
+      });
+      updateUI();
+    }
+
+    function buyAnimal(type) {
+      if (state.coins >= ITEMS[type].price) {
+        state.coins -= ITEMS[type].price;
+        spawnAnimal(type, Math.random() * 4 + 3.5, Math.random() * 4 + 3.5);
+        updateUI();
+        notify(`Membeli ${ITEMS[type].label}!`, 'success');
+      } else { notify("Koin tidak cukup!", "error"); }
+    }
+
+    function sellItem(key) {
+      if (state.inventory[key] > 0) {
+        state.inventory[key]--;
+        state.coins += MARKET[key];
+        addXP(3); // XP diperkecil
+        updateUI();
+      }
+    }
+
+    function buyFeed() {
+      if (state.coins >= MARKET.feed) {
+        state.coins -= MARKET.feed;
+        state.feed += 5;
+        updateUI();
+        notify("Membeli 5 unit Pakan", "success");
+      } else { notify("Koin tidak cukup!", "error"); }
+    }
+
+    function feedAll() {
+      const hungry = state.animals.filter(a => a.hunger < 0.9 && !a.isDead);
+      if (hungry.length === 0) return notify("Semua hewan sudah kenyang!");
+      if (state.feed >= hungry.length) {
+        state.feed -= hungry.length;
+        hungry.forEach(a => a.hunger = 1.0);
+        addXP(1); // XP diperkecil
+        notify(`Memberi makan ${hungry.length} hewan!`, 'success');
+        updateUI();
+      } else { notify("Stok pakan tidak cukup!", "error"); }
+    }
+
+    function updateUI() {
+      const safeEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+      safeEl('coin-count', Math.floor(state.coins));
+      safeEl('feed-count', state.feed);
+      safeEl('level-badge', `LV ${state.level}`);
+      safeEl('player-title', TITLES[Math.min(state.level - 1, TITLES.length - 1)]);
+      
+      const xpReq = state.level * 1000;
+      const bar = document.getElementById('xp-bar');
+      const txt = document.getElementById('xp-text');
+      if (state.level >= 13) {
+        if(bar) bar.style.width = '100%';
+        if(txt) txt.innerText = 'MAX';
+      } else {
+        if(bar) bar.style.width = `${(state.xp / xpReq) * 100}%`;
+        if(txt) txt.innerText = `${state.xp}/${xpReq}`;
+      }
+      safeEl('animal-count', state.animals.filter(a => !a.isDead).length);
+
+      const shop = document.getElementById('shop-content');
+      if (shop) shop.innerHTML = Object.entries(ITEMS).map(([key, item]) => `
+        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-2xl">${key==='chicken'?'🐔':key==='cow'?'🐄':'🐑'}</div>
+            <div><p class="font-bold text-slate-800">${item.label}</p><p class="text-xs font-bold text-amber-600">${item.price} Koin</p></div>
+          </div>
+          <button onclick="buyAnimal('${key}')" class="bg-blue-500 text-white p-2.5 rounded-xl"><i data-lucide="plus" class="w-5 h-5"></i></button>
+        </div>`).join('');
+
+      const market = document.getElementById('market-content');
+      if (market) market.innerHTML = Object.entries(state.inventory).map(([key, count]) => `
+        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border ${count > 0 ? 'border-amber-200' : 'border-slate-100'}">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-2xl">${key==='egg'?'🥚':key==='milk'?'🍼':'🧶'}</div>
+            <div><p class="font-bold text-slate-800 capitalize">${key}</p><p class="text-xs">Stok: ${count}</p></div>
+          </div>
+          <button onclick="sellItem('${key}')" ${count <= 0 ? 'disabled' : ''} class="bg-amber-500 text-white px-4 py-2.5 rounded-xl font-bold text-xs disabled:opacity-30">Jual +$${MARKET[key]}</button>
+        </div>`).join('');
+
+      safeEl('store-milk', state.inventory.milk); safeEl('store-egg', state.inventory.egg); safeEl('store-wool', state.inventory.wool);
+      lucide.createIcons();
+    }
+
+    function isoToScreen(x, y, z) {
+      const ox = canvas.width / 2, oy = canvas.height / 2 - (GRID * TILE_H) / 2 + 100;
+      return { x: (x - y) * (TILE_W / 2) + ox, y: (x + y) * (TILE_H / 2) - z + oy };
+    }
+
+    function gameLoop(time) {
+      const dt = time - state.lastTime;
+      state.lastTime = time;
+
+      // Disaster Logic
+      if (time > state.disasterCooldown) {
+        if (Math.random() < 0.0001) {
+          triggerDisaster(Math.random() > 0.5 ? 'quake' : 'meteor');
+          state.disasterCooldown = time + 60000; // Minimal 1 menit jeda antar bencana
+        }
+      }
+
+      state.timeOfDay = (time / 120000) % 1; 
+      const isNight = state.timeOfDay > 0.6;
+      document.body.classList.toggle('night-mode', isNight);
+
+      if (time - state.lastWeatherChange > 30000) {
+        state.lastWeatherChange = time;
+        state.weather = state.weather === 'rain' ? 'clear' : 'rain';
+      }
+      document.body.classList.toggle('rain-mode', state.weather === 'rain');
+
+      if (state.weather === 'rain' && Math.random() < 0.005) state.lightningFlash = 0.8;
+      state.lightningFlash = Math.max(0, state.lightningFlash - 0.05);
+      state.meteorFlash = Math.max(0, state.meteorFlash - 0.02);
+
+      ctx.save();
+      if (state.shake > 0) {
+        ctx.translate((Math.random()-0.5) * 10, (Math.random()-0.5) * 10);
+        state.shake--;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isNight) {
+        state.stars.forEach(s => {
+          ctx.globalAlpha = 0.1 + Math.abs(Math.sin(time * s.speed + s.phase)) * 0.9 * (state.weather === 'rain' ? 0.2 : 1);
+          ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+        if (!state.comet.active && Math.random() < 0.002) {
+          state.comet = { active: true, x: canvas.width+50, y: Math.random()*canvas.height/3, vx: -5, vy: 3 };
+        }
+        if (state.comet.active) {
+          state.comet.x += state.comet.vx; state.comet.y += state.comet.vy;
+          ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(state.comet.x, state.comet.y);
+          ctx.lineTo(state.comet.x - state.comet.vx*10, state.comet.y - state.comet.vy*10); ctx.stroke();
+          if(state.comet.x < -200) state.comet.active = false;
+        }
+      }
+
+      ctx.fillStyle = state.weather === 'rain' ? 'rgba(112,128,144,0.5)' : 'rgba(255,255,255,0.3)';
+      state.clouds.forEach(c => {
+        c.x = (c.x + c.speed) % (canvas.width + 200);
+        ctx.beginPath(); ctx.arc(c.x-100, c.y, 40*c.scale, 0, Math.PI*2); ctx.fill();
+      });
+
+      for (let sum = 0; sum <= GRID * 2; sum++) {
+        for (let i = 0; i <= GRID; i++) {
+          let j = sum - i;
+          if (j >= 0 && j <= GRID) {
+            const isGrass = (i < GRID && j < GRID);
+            const img = isGrass ? IMAGES.grass : IMAGES.river;
+            if (img && img.width > 0) {
+              const screen = isoToScreen(i, j, 0);
+              ctx.drawImage(img, screen.x - TILE_W/2, screen.y - TILE_H/2, TILE_W, TILE_W * (img.height/img.width));
+            }
+          }
+        }
+      }
+
+      const renderList = [];
+      renderList.push({ type: 'barn', x: 1.5, y: 1.5, depth: 4.5 });
+
+      state.animals.forEach(a => {
+        if (!a.isDead) {
+          const dx = a.targetX - a.x, dy = a.targetY - a.y, dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 0.1) {
+            if (time > a.idleUntil) {
+              a.targetX = Math.random() * 4 + 3.5; a.targetY = Math.random() * 4 + 3.5;
+              a.idleUntil = time + 5000 + Math.random() * 8000;
+            } else { a.x = a.targetX; a.y = a.targetY; }
+          } else {
+            a.x += (dx/dist) * 0.008; a.y += (dy/dist) * 0.008;
+          }
+          a.hop = (dist >= 0.1) ? Math.abs(Math.sin(time/200)) * 0.2 : 0;
+          const hungerRate = (state.weather === 'rain') ? 90000 : 180000;
+          a.hunger = Math.max(0, a.hunger - (dt / hungerRate));
+
+          if (a.hunger <= 0) {
+            a.isDead = true; a.deathTime = time; updateUI();
+            notify(`${ITEMS[a.type].label} mati kelaparan!`, 'error');
+          } else if (time - a.lastProd > ITEMS[a.type].rate) {
+            a.lastProd = time;
+            state.drops.push({ type: ITEMS[a.type].prod, x: a.x, y: a.y, bounce: 0, spawnTime: time });
+          }
+        }
+        renderList.push({ type: 'animal', data: a, depth: a.x + a.y });
+      });
+
+      // Produksi Hilang dalam 1 Menit
+      state.drops = state.drops.filter(d => time - d.spawnTime < 60000);
+      state.drops.forEach(d => {
+        d.bounce = Math.sin(time/300) * 2;
+        renderList.push({ type: 'drop', data: d, depth: d.x + d.y });
+      });
+
+      renderList.sort((a,b) => a.depth - b.depth);
+
+      renderList.forEach(obj => {
+        if (obj.type === 'barn') {
+          const bIdx = Math.min(state.level - 1, 12);
+          const bImg = IMAGES.barns[bIdx];
+          if (bImg && bImg.width > 0) {
+            const s = isoToScreen(obj.x, obj.y, 0);
+            ctx.drawImage(bImg, s.x - 90, s.y - 140, 180, 180);
+          }
+        } else if (obj.type === 'animal') {
+          const a = obj.data;
+          const sG = isoToScreen(a.x, a.y, 0);
+          ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.beginPath(); ctx.ellipse(sG.x, sG.y, a.type === 'cow' ? 22 : 8, a.type === 'cow' ? 11 : 4, 0, 0, Math.PI*2); ctx.fill();
+
+          if (a.isDead) {
+            const fade = Math.max(0, 1 - (time - a.deathTime - 60000)/5000);
+            ctx.globalAlpha = Math.min(1, fade);
+            if(IMAGES.skull) ctx.drawImage(IMAGES.skull, sG.x - 15, sG.y - 25, 30, 30);
+            ctx.globalAlpha = 1;
+          } else {
+            const s = isoToScreen(a.x, a.y, a.hop * 10);
+            const isWalk = Math.abs(a.targetX - a.x) > 0.01;
+            let img, fSz = 300, frames = 2, drawSz = 50;
+
+            if (a.type === 'cow') { img = isWalk ? IMAGES.cowWalk : IMAGES.cowIdle; fSz = 500; frames = isWalk ? 2 : 4; drawSz = 80; }
+            else if (a.type === 'chicken') { img = isWalk ? IMAGES.henWalk : IMAGES.henIdle; drawSz = 25; } 
+            else { img = isWalk ? IMAGES.sheepWalk : IMAGES.sheepIdle; drawSz = 52; } // Ukuran Domba diperbesar 0.5x
+
+            if (img && img.width > 0) {
+              const fIdx = Math.floor(time / 150) % frames;
+              ctx.save();
+              if (a.targetX > a.x) { ctx.translate(s.x, s.y); ctx.scale(-1, 1); ctx.drawImage(img, fIdx*fSz, 0, fSz, fSz, -drawSz/2, -drawSz*0.75, drawSz, drawSz); }
+              else { ctx.drawImage(img, fIdx*fSz, 0, fSz, fSz, s.x - drawSz/2, s.y - drawSz*0.75, drawSz, drawSz); }
+              ctx.restore();
+            }
+            ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fillRect(s.x - 10, s.y - drawSz*0.8, 20, 3);
+            ctx.fillStyle = a.hunger > 0.3 ? '#22c55e' : '#ef4444'; ctx.fillRect(s.x - 10, s.y - drawSz*0.8, 20*a.hunger, 3);
+          }
+        } else if (obj.type === 'drop') {
+          const d = obj.data, sG = isoToScreen(d.x, d.y, 0), s = isoToScreen(d.x, d.y, d.bounce+5);
+          ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.beginPath(); ctx.ellipse(sG.x, sG.y, 10, 5, 0, 0, Math.PI*2); ctx.fill();
+          const img = d.type === 'milk' ? IMAGES.milk : (d.type === 'egg' ? IMAGES.egg : IMAGES.wool);
+          if(img) ctx.drawImage(img, s.x - 12, s.y - 15, 24, 24);
+        }
+      });
+
+      if (state.weather === 'rain') {
+        ctx.strokeStyle = 'rgba(173,216,230,0.4)'; ctx.lineWidth = 1; ctx.beginPath();
+        state.rainDrops.forEach(r => {
+          r.x += r.xs; r.y += r.ys; if(r.y > canvas.height) { r.y = -20; r.x = Math.random()*canvas.width; }
+          ctx.moveTo(r.x, r.y); ctx.lineTo(r.x+r.xs, r.y+r.l);
+        });
+        ctx.stroke();
+      }
+      if (state.lightningFlash > 0) { ctx.fillStyle = `rgba(255,255,255,${state.lightningFlash})`; ctx.fillRect(0,0,canvas.width,canvas.height); }
+      if (state.meteorFlash > 0) { ctx.fillStyle = `rgba(255,0,0,${state.meteorFlash * 0.3})`; ctx.fillRect(0,0,canvas.width,canvas.height); }
+
+      ctx.restore();
+      requestAnimationFrame(gameLoop);
+    }
+
+    canvas.addEventListener('click', (e) => {
+      if (!document.getElementById('modal-backdrop').classList.contains('hidden')) return;
+      const rect = canvas.getBoundingClientRect(), mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      let col = false;
+      state.drops = state.drops.filter(d => {
+        const s = isoToScreen(d.x, d.y, 10);
+        if (Math.sqrt((mx-s.x)**2 + (my-s.y)**2) < 30 && !col) {
+          col = true; state.inventory[d.type]++; addXP(1); // Panen dapat 1 XP
+          addFloatingText(`+1 ${d.type}`, mx, my, '#3b82f6');
+          return false;
+        }
+        return true;
+      });
+    });
+
+    window.onload = init;
+  <\/script>
+</body>
+</html>
+    </textarea>
 
     <!-- Footer -->
     <footer class="bg-cyber-900 border-t border-cyber-700 py-6 relative z-10">
@@ -1292,27 +2023,41 @@
         // Mulai ketik logo setelah delay kecil
         setTimeout(typeLogo, 800);
 
-        // --- NEW: Image Lightbox Functionality ---
+        // --- NEW: Portfolio Click Handler (Lightbox + Game Modal) ---
         const lightboxModal = document.getElementById('lightboxModal');
         const lightboxImage = document.getElementById('lightboxImage');
+        const gameModal = document.getElementById('gameModal');
+        const gameIframe = document.getElementById('gameIframe');
         
         portfolioItems.forEach(card => {
             card.addEventListener('click', () => {
-                const img = card.querySelector('img'); // Ambil gambar di dalam card
-                if (img) {
-                    lightboxImage.src = img.src;
-                    lightboxModal.classList.remove('hidden');
-                    // Delay kecil untuk memicu transisi opacity & scale
-                    setTimeout(() => {
-                        lightboxModal.classList.remove('opacity-0');
-                        lightboxImage.classList.remove('scale-95');
-                        lightboxImage.classList.add('scale-100');
-                    }, 10);
+                const cardType = card.getAttribute('data-type');
+                
+                if (cardType === 'game') {
+                    // Open Game Modal & Load Engine
+                    const rawCode = document.getElementById('raw-game-code').value;
+                    // Replace penanda penutup script agar bisa dibaca iframe
+                    gameIframe.srcdoc = rawCode.replace(/<\\\/script>/g, '<\/script>');
+                    
+                    gameModal.classList.remove('hidden');
+                    setTimeout(() => gameModal.classList.remove('opacity-0'), 10);
+                } else {
+                    // Normal Image Lightbox
+                    const img = card.querySelector('img'); 
+                    if (img) {
+                        lightboxImage.src = img.src;
+                        lightboxModal.classList.remove('hidden');
+                        setTimeout(() => {
+                            lightboxModal.classList.remove('opacity-0');
+                            lightboxImage.classList.remove('scale-95');
+                            lightboxImage.classList.add('scale-100');
+                        }, 10);
+                    }
                 }
             });
         });
 
-        // Tutup lightbox jika mengklik background atau tombol close
+        // Tutup Lightbox Image
         function closeLightbox(e, force = false) {
             if (force || e.target === lightboxModal) {
                 lightboxModal.classList.add('opacity-0');
@@ -1320,8 +2065,19 @@
                 lightboxImage.classList.add('scale-95');
                 setTimeout(() => {
                     lightboxModal.classList.add('hidden');
-                    lightboxImage.src = ''; // Bersihkan gambar
-                }, 300); // Waktu yang sama dengan durasi transisi
+                    lightboxImage.src = ''; 
+                }, 300); 
+            }
+        }
+
+        // Tutup Game Modal
+        function closeGameModal(e, force = false) {
+            if (force || e.target === gameModal) {
+                gameModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    gameModal.classList.add('hidden');
+                    gameIframe.srcdoc = ''; // Hentikan game & kosongkan memori saat ditutup!
+                }, 300);
             }
         }
 
