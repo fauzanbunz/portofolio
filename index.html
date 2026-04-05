@@ -1,1 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fauzanbunz | Cyberpunk NFT Artist & Illustrator</title>
+    
+    <!-- Google Fonts: Space Grotesk & Chakra Petch for Cyberpunk feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Chakra Petch', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#ff007f',   // Neon Pink
+                            cyan: '#00f3ff',   // Neon Cyan
+                            yellow: '#fcee0a', // Cyber Yellow
+                        },
+                        cyber: {
+                            900: '#050511', // Deep dark void
+                            800: '#0a0a1f', // Dark blue-purple
+                            700: '#141432'  // Lighter grid color
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050511;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Parallax Hero Section - Cyberpunk City */
+        .parallax-hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: flex-end; /* Memindahkan konten teks ke bawah */
+            justify-content: center;
+            padding-bottom: 10vh; /* Memberikan ruang dari bawah layar */
+            background-image: url('https://raw.githubusercontent.com/fauzanbunz/portofolio/main/where%20is%20the%20future%20zzzzzz%20copy.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 1;
+        }
+
+        .parallax-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            /* Mengurangi efek gelap di atas agar gambar lebih jelas, tapi tetap gelap di bawah untuk teks */
+            background: linear-gradient(to bottom, rgba(5,5,17,0.1) 0%, rgba(5,5,17,0.3) 60%, rgba(5,5,17,1) 100%);
+            z-index: -1;
+        }
+
+        /* Glitch & Neon Effects */
+        .text-gradient {
+            background: linear-gradient(to right, #00f3ff, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+
+        .neon-text-pink {
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.7), 0 0 20px rgba(255, 0, 127, 0.4);
+        }
+
+        .cyber-border-cyan {
+            border: 1px solid #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2), inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+
+        .cyber-border-cyan:hover {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5), inset 0 0 20px rgba(0, 243, 255, 0.3);
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.8);
+        }
+
+        .cyber-border-pink {
+            border: 1px solid #ff007f;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.2), inset 0 0 10px rgba(255, 0, 127, 0.1);
+        }
+
+        .cyber-border-pink:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.5), inset 0 0 20px rgba(255, 0, 127, 0.3);
+            text-shadow: 0 0 5px rgba(255, 0, 127, 0.8);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Portfolio Cards */
+        .portfolio-card {
+            border: 1px solid #141432;
+            transition: all 0.4s ease;
+            will-change: transform, border-color, box-shadow; /* Optimasi GPU */
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            border-color: #00f3ff;
+            box-shadow: 0 10px 30px -10px rgba(0, 243, 255, 0.4);
+        }
+
+        .portfolio-card img {
+            transition: transform 0.7s ease, filter 0.4s ease;
+            filter: grayscale(20%) contrast(120%);
+            will-change: transform, filter; /* Optimasi GPU untuk gambar */
+        }
+
+        .portfolio-card:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        .overlay {
+            background: linear-gradient(to top, rgba(5,5,17,0.95) 0%, rgba(5,5,17,0.4) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-top: 1px solid transparent;
+        }
+
+        .portfolio-card:hover .overlay {
+            opacity: 1;
+            border-top: 1px solid rgba(0, 243, 255, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050511; border-left: 1px solid #141432; }
+        ::-webkit-scrollbar-thumb { background: #00f3ff; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff007f; }
+        
+        /* Decoration element */
+        .cyber-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00f3ff;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* --- NEW: TV Wave / Scanline Style --- */
+        .tv-wave {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 15vh;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.05) 50%, rgba(0, 243, 255, 0.1) 80%, transparent);
+            animation: scan-wave 6s linear infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
+        @keyframes scan-wave {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* --- NEW: Blinking Cursor for Typing Effect --- */
+        .blinking-cursor {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* --- NEW: Radar Animation Styles --- */
+        .radar-box {
+            position: absolute;
+            left: 3%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            background: rgba(0, 243, 255, 0.05);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 243, 255, 0.1);
+            overflow: hidden;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .radar-grid {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background-image: 
+                linear-gradient(rgba(0,243,255,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,243,255,0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center;
+        }
+        .radar-crosshair::before {
+            content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(0,243,255,0.5);
+        }
+        .radar-crosshair::after {
+            content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(0,243,255,0.5);
+        }
+        .radar-sweep {
+            position: absolute;
+            top: 0; left: 50%; width: 50%; height: 50%;
+            transform-origin: bottom left;
+            background: linear-gradient(45deg, rgba(0,243,255,0.8) 0%, rgba(0,243,255,0) 60%);
+            animation: radar-spin 3s linear infinite;
+        }
+        @keyframes radar-spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- NEW: Matrix Mask Style --- */
+        .matrix-mask {
+            -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
+            mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
+        }
+
+        /* --- NEW: Right Side Scrolling Code Styles --- */
+        .scrolling-code-box {
+            position: absolute;
+            right: 3%;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 250px;
+            width: 200px;
+            overflow: hidden;
+            z-index: 5;
+            pointer-events: none;
+            text-align: right;
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-5 border-b border-transparent">
+        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="#" class="font-display font-bold text-2xl tracking-widest text-white uppercase flex items-center gap-2">
+                <i class="ph-fill ph-hexagon text-brand-pink text-3xl"></i>
+                FZN<span class="text-brand-cyan">BNZ</span>
+            </a>
+            <div class="hidden md:flex space-x-10 text-sm font-bold tracking-widest uppercase">
+                <a href="#home" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:text-brand-pink hover:neon-text-pink transition-all duration-300">Sys.Home</a>
+                <a href="#about" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:text-brand-pink hover:neon-text-pink transition-all duration-300">Sys.About</a>
+                <a href="#portfolio" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:text-brand-pink hover:neon-text-pink transition-all duration-300">Database</a>
+                <a href="#contact" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:text-brand-pink hover:neon-text-pink transition-all duration-300">Comms</a>
+            </div>
+            <button onclick="openModal()" class="hidden md:inline-block px-6 py-2 bg-cyber-800 cyber-border-pink text-brand-pink text-sm font-bold uppercase tracking-wider transition-all">
+                INITIATE_HIRE
+            </button>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-2xl text-brand-cyan">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Parallax) -->
+    <section id="home" class="parallax-hero overflow-hidden">
+        
+        <!-- NEW: Matrix Canvas applied here -->
+        <canvas class="matrix-canvas absolute inset-0 w-full h-full pointer-events-none matrix-mask opacity-40 mix-blend-screen" style="z-index: 1;"></canvas>
+
+        <!-- Canvas Kunang-kunang (Fireflies) -->
+        <canvas id="fireflyCanvas" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 2;"></canvas>
+
+        <!-- NEW: TV Wave / Scanline Effect -->
+        <div class="tv-wave"></div>
+
+        <!-- NEW: Radar (Left Side - Hidden on very small screens) -->
+        <div class="hidden lg:block radar-box">
+            <div class="radar-grid"></div>
+            <div class="radar-crosshair"></div>
+            <div class="radar-sweep"></div>
+            <!-- Small blip effect -->
+            <div class="absolute top-[30%] left-[60%] w-2 h-2 bg-brand-pink rounded-full shadow-[0_0_10px_#ff007f] animate-pulse"></div>
+            <div class="absolute top-[70%] left-[30%] w-1.5 h-1.5 bg-brand-cyan rounded-full shadow-[0_0_10px_#00f3ff] animate-ping"></div>
+        </div>
+
+        <!-- NEW: Scrolling Random Code (Right Side - Hidden on very small screens) -->
+        <div class="hidden lg:block scrolling-code-box font-mono text-[10px] text-brand-cyan/70 leading-relaxed tracking-wider" id="scrollingCode">
+            <!-- Code populated by JS -->
+        </div>
+
+        <div class="container mx-auto px-6 md:px-12 text-center relative" style="z-index: 10;">
+            <div class="inline-block relative">
+                <p class="text-brand-yellow font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-6 reveal delay-100">
+                    [ CONNECTION_ESTABLISHED ]
+                </p>
+                <div class="text-sm md:text-base text-gray-200 max-w-xl mx-auto mb-8 leading-relaxed reveal delay-200 border-l-2 border-brand-pink pl-3 text-left inline-block min-h-[48px] md:min-h-[56px]">
+                    <span id="typewriter-text"></span><span class="blinking-cursor w-2 h-4 md:h-5 bg-brand-cyan inline-block align-middle ml-1"></span>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 reveal delay-400">
+                    <a href="#portfolio" class="px-6 py-3 text-sm bg-brand-cyan text-cyber-900 font-bold uppercase tracking-widest transition-all hover:bg-white hover:shadow-[0_0_15px_#00f3ff]">
+                        Access_Database
+                    </a>
+                    <button onclick="openModal()" class="px-6 py-3 text-sm cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900/50 hover:bg-cyber-800">
+                        Open_Comms
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cyber Decorative Elements -->
+        <div class="absolute top-28 left-6 text-brand-cyan/60 font-mono text-xs hidden md:block" style="z-index: 10;">
+            SYS.STATUS: ONLINE<br>
+            LATENCY: 12ms<br>
+            ENCRYPTION: ACTIVE
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-cyber-900/95 relative border-b border-cyber-700 overflow-hidden">
+        
+        <!-- Matrix Canvas for Frame 2 -->
+        <canvas class="matrix-canvas absolute inset-0 w-full h-full pointer-events-none matrix-mask opacity-10 mix-blend-screen" style="z-index: 0;"></canvas>
+
+        <div class="container mx-auto px-6 md:px-12 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative">
+                <div class="reveal relative p-4">
+                    <!-- Cyberpunk Corners -->
+                    <div class="cyber-corner corner-tl"></div>
+                    <div class="cyber-corner corner-tr"></div>
+                    <div class="cyber-corner corner-bl"></div>
+                    <div class="cyber-corner corner-br"></div>
+                    
+                    <div class="relative overflow-hidden aspect-square md:aspect-[4/5] filter grayscale-[10%] contrast-[110%] cyber-border-pink group">
+                        <!-- Base Image -->
+                        <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/g1.jpg" alt="Identity Base" class="absolute inset-0 w-full h-full object-cover">
+                        
+                        <!-- Revealed Image -->
+                        <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/g2.png" alt="Identity Revealed" class="absolute inset-0 w-full h-full object-cover img-reveal-layer">
+                        
+                        <!-- Cyber Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-pink/20 to-brand-cyan/20 mix-blend-overlay pointer-events-none"></div>
+                        
+                        <!-- Scanning neon line -->
+                        <div class="neon-scanner-line pointer-events-none"></div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <p class="text-brand-pink font-bold tracking-[0.2em] uppercase mb-2">>> Identity_Profile</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-8 uppercase">Neural <span class="text-gradient">Architect</span></h2>
+                    <p class="text-gray-400 mb-6 text-lg leading-relaxed font-light">
+                        With a decade of dedicated practice in the digital grid, I specialize in bringing imagination to life. Bridging the gap between traditional art principles and modern Web3 protocols.
+                    </p>
+                    <p class="text-gray-400 mb-10 text-lg leading-relaxed font-light">
+                        My expertise extends across high-tier NFT collections, immersive game assets, and responsive cyber-interfaces. Executing pixel-perfect precision on every node.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-cyber-800 p-6 cyber-border-cyan group">
+                            <div class="text-3xl text-brand-cyan mb-3 group-hover:neon-text-cyan transition-all"><i class="ph-fill ph-cpu"></i></div>
+                            <h3 class="text-2xl font-display font-bold mb-1 text-white">10+ YRS</h3>
+                            <p class="text-xs text-brand-cyan uppercase tracking-widest">System_Uptime</p>
+                        </div>
+                        <div class="bg-cyber-800 p-6 cyber-border-pink group">
+                            <div class="text-3xl text-brand-pink mb-3 group-hover:neon-text-pink transition-all"><i class="ph-fill ph-cube"></i></div>
+                            <h3 class="text-2xl font-display font-bold mb-1 text-white">200+</h3>
+                            <p class="text-xs text-brand-pink uppercase tracking-widest">Nodes_Created</p>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Extra Skills -->
+                    <div class="mt-8 border-t border-cyber-700 pt-8">
+                        <p class="text-brand-yellow font-bold tracking-[0.2em] text-xs uppercase mb-4">>> Extra_Skills</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Skill 1 -->
+                            <div class="bg-cyber-800 p-4 cyber-border-cyan group flex flex-col justify-center">
+                                <div class="text-2xl text-brand-cyan mb-2 group-hover:neon-text-cyan transition-all"><i class="ph-fill ph-file-code"></i></div>
+                                <h3 class="text-sm font-display font-bold text-white leading-tight uppercase">NFT Generator</h3>
+                                <p class="text-[10px] text-brand-cyan uppercase tracking-widest mt-1">& Generate JSON File</p>
+                            </div>
+                            <!-- Skill 2 -->
+                            <div class="bg-cyber-800 p-4 cyber-border-pink group flex flex-col justify-center">
+                                <div class="text-2xl text-brand-pink mb-2 group-hover:neon-text-pink transition-all"><i class="ph-fill ph-browsers"></i></div>
+                                <h3 class="text-sm font-display font-bold text-white leading-tight uppercase">Building Web</h3>
+                                <p class="text-[10px] text-brand-pink uppercase tracking-widest mt-1">Frontend Protocols</p>
+                            </div>
+                            <!-- Skill 3 -->
+                            <div class="bg-cyber-800 p-4 cyber-border-cyan group col-span-2 flex items-center gap-5">
+                                <div class="text-3xl text-brand-cyan group-hover:neon-text-cyan transition-all"><i class="ph-fill ph-game-controller"></i></div>
+                                <div>
+                                    <h3 class="text-sm font-display font-bold text-white leading-tight uppercase">Building Web3 Game</h3>
+                                    <p class="text-[10px] text-brand-cyan uppercase tracking-widest mt-1">Interactive Experiences</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-cyber-800/95 relative border-b border-cyber-700 overflow-hidden">
+        
+        <!-- Matrix Canvas for Frame 3 -->
+        <canvas class="matrix-canvas absolute inset-0 w-full h-full pointer-events-none matrix-mask opacity-10 mix-blend-screen" style="z-index: 0;"></canvas>
+
+        <!-- Grid background overlay -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgwLCAyNDMsIDI1NSwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 md:px-12 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <p class="text-brand-cyan font-bold tracking-[0.2em] uppercase mb-2">>> Visual_Database</p>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 uppercase">Asset <span class="text-gradient">Registry</span></h2>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex justify-center flex-wrap gap-4 mb-12 reveal">
+                <button class="filter-btn active px-8 py-2 bg-brand-cyan text-cyber-900 font-bold uppercase tracking-widest transition-all hover:bg-white hover:shadow-[0_0_15px_#00f3ff]" data-filter="all">ALL_FILES</button>
+                <button class="filter-btn px-8 py-2 cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900" data-filter="nft">NFT_ASSETS</button>
+                <button class="filter-btn px-8 py-2 cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900" data-filter="illustration">ILLUSTRATIONS</button>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolio-grid">
+                
+                <!-- ALL FAUZANBUNZ ITEMS SET TO NFT -->
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/03.jpg" alt="Artwork 03" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Artwork 03</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/3.jpg" alt="Concept 3" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Concept 3</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/6.jpg" alt="Vision 6" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Vision 6</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/d.jpg" alt="D-Series" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">D-Series</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/iced.jpg" alt="Iced Out" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Iced Out</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/leon.gif" alt="Leon Animated" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Leon Animated</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/meow%202.jpg" alt="Meow Vol. 2" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Meow Vol. 2</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/meow.jpg" alt="Meow Original" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Meow Original</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/monad%20copy.jpg" alt="Monad Realm" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Monad Realm</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/recycle.jpg" alt="Recycle Concept" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Recycle Concept</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/solanabeach%20copy%20d.jpg" alt="Solana Beach" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Solana Beach</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/tes1%20copy%203.jpg" alt="Test Series 1" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Test Series 1</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/z.jpg" alt="Z-Dimension" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Z-Dimension</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- ADDITIONS TO NFT CATEGORY -->
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/_0010_brown%20copy.jpg" alt="Brown Copy" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Brown Copy</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/2.jpg" alt="Concept 2" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Concept 2</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/04.jpg" alt="Artwork 04" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Artwork 04</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/sodead.jpg" alt="So Dead" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">So Dead</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/_0000s_0022_bag%20copy.jpg" alt="Bag Copy" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Bag Copy</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/4.jpg" alt="Concept 4" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Concept 4</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/mongol_copy.jpg" alt="Mongol Copy" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Mongol Copy</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="nft">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/solanabeach%20gg.jpg" alt="Solana Beach GG" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-pink text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> NFT</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Solana Beach GG</h3>
+                        <div class="w-12 h-1 bg-brand-cyan mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- ADDITIONS TO ILLUSTRATION CATEGORY -->
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/rival.jpg" alt="Rival" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Rival</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/where%20is%20the%20future%20zzzzzz%20copy.jpg" alt="Where is the future" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Where is the future</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/doberman.jpg" alt="Doberman" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Doberman</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/hellhound%2022.jpg" alt="Hellhound 22" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Hellhound 22</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/hellhound1.jpg" alt="Hellhound 1" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Hellhound 1</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/akuma.jpg" alt="Akuma" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Akuma</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/akuma3%20copy.jpg" alt="Akuma 3" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Akuma 3</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/ambience2.jpg" alt="Ambience 2" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Ambience 2</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/anthem.jpg" alt="Anthem" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Anthem</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/army%20of%20toad.jpg" alt="Army of Toad" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Army of Toad</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/cilik.jpg" alt="Cilik" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Cilik</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/mermaid.jpg" alt="Mermaid" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Mermaid</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item group portfolio-card relative aspect-square reveal" data-category="illustration">
+                    <img src="https://raw.githubusercontent.com/fauzanbunz/portofolio/main/reese%20copy.jpg" alt="Reese" class="w-full h-full object-cover">
+                    <div class="overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <span class="text-brand-yellow text-xs font-bold tracking-[0.2em] mb-2 uppercase">>> Illustration</span>
+                        <h3 class="text-xl font-display font-bold text-white mb-1 uppercase tracking-wider">Reese</h3>
+                        <div class="w-12 h-1 bg-brand-pink mt-2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / CTA Section -->
+    <section id="contact" class="py-24 bg-cyber-900 relative overflow-hidden">
+        <!-- Intense glowing orb background -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-pink/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen"></div>
+
+        <div class="container mx-auto px-6 md:px-12 relative z-10 text-center">
+            <div class="max-w-2xl mx-auto reveal">
+                <p class="text-brand-cyan font-bold tracking-[0.2em] uppercase mb-4">>> End_of_Line</p>
+                <h2 class="font-display text-4xl md:text-6xl font-bold mb-6 uppercase">Initialize <br> <span class="text-gradient">Collaboration</span></h2>
+                <p class="text-gray-400 text-lg mb-10 font-light">Signal is open for contract work, Web3 protocols, and NFT generation.</p>
+                
+                <button onclick="openModal()" class="inline-flex items-center gap-3 px-10 py-5 cyber-border-pink bg-cyber-900/80 text-brand-pink font-bold hover:bg-brand-pink hover:text-white transition-all uppercase tracking-widest group cursor-pointer">
+                    <i class="ph-fill ph-envelope-simple text-2xl group-hover:animate-pulse"></i>
+                    PING_SERVER
+                </button>
+
+                <!-- Menghilangkan sosmed lain, hanya sisakan Twitter agar proporsional -->
+                <div class="flex justify-center gap-6 mt-16">
+                    <a href="https://x.com/fauzanbunz" target="_blank" rel="noopener noreferrer" class="w-14 h-14 bg-cyber-800 cyber-border-cyan flex items-center justify-center text-brand-cyan hover:bg-brand-cyan hover:text-cyber-900 transition-all">
+                        <i class="ph-fill ph-twitter-logo text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Form (Hidden by default) -->
+    <div id="contactModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-cyber-900/90 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300 px-4">
+        <div class="bg-cyber-800 p-8 border border-brand-cyan shadow-[0_0_30px_rgba(0,243,255,0.2)] w-full max-w-lg relative">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-brand-pink hover:text-white transition-colors">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+            
+            <h3 class="font-display text-2xl font-bold mb-6 text-white uppercase tracking-wider">Secure <span class="text-brand-cyan">Transmission</span></h3>
+            
+            <form action="mailto:fznbunny@gmail.com" method="POST" enctype="text/plain" class="space-y-5">
+                <div>
+                    <label class="block text-brand-cyan text-xs font-bold tracking-widest uppercase mb-2">>> Project Name</label>
+                    <input type="text" name="project" placeholder="Your project name" class="w-full bg-cyber-900 border border-cyber-700 focus:border-brand-cyan focus:shadow-[0_0_10px_rgba(0,243,255,0.3)] text-white p-3 outline-none transition-all" required>
+                </div>
+                <div>
+                    <label class="block text-brand-cyan text-xs font-bold tracking-widest uppercase mb-2">>> Project Details</label>
+                    <textarea name="details" rows="4" placeholder="Describe the details of your project..." class="w-full bg-cyber-900 border border-cyber-700 focus:border-brand-cyan focus:shadow-[0_0_10px_rgba(0,243,255,0.3)] text-white p-3 outline-none transition-all" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-brand-pink text-xs font-bold tracking-widest uppercase mb-2">>> Attachment (Image / File)</label>
+                    <input type="file" name="attachment" class="w-full bg-cyber-900 border border-cyber-700 text-gray-400 p-2 outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-brand-pink file:text-white file:font-bold file:uppercase file:text-xs file:tracking-widest hover:file:bg-pink-600 transition-all cursor-pointer">
+                </div>
+                
+                <button type="submit" class="w-full mt-6 px-6 py-4 bg-brand-cyan text-cyber-900 font-bold uppercase tracking-widest transition-all hover:bg-white hover:shadow-[0_0_15px_#00f3ff]">
+                    TRANSMIT_DATA
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-cyber-900 border-t border-cyber-700 py-6 relative z-10">
+        <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-brand-cyan/60 text-xs font-mono uppercase tracking-widest">SYSTEM © 2026 FAUZANBUNZ.</p>
+            <p class="text-brand-cyan/60 text-xs font-mono uppercase tracking-widest flex items-center gap-2">
+                RUNNING ON <i class="ph-fill ph-lightning text-brand-yellow"></i> TAILWIND
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <style>
+        /* --- NEW: Image Reveal Scanner Styles --- */
+        @keyframes scan-reveal-bounce {
+            0%, 5% { clip-path: inset(0 0 100% 0); }
+            45%, 55% { clip-path: inset(0 0 0% 0); }
+            95%, 100% { clip-path: inset(0 0 100% 0); }
+        }
+        @keyframes scan-line-bounce {
+            0%, 5% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            45%, 55% { top: calc(100% - 4px); opacity: 1; }
+            90% { opacity: 1; }
+            95%, 100% { top: 0%; opacity: 0; }
+        }
+        .img-reveal-layer {
+            animation: scan-reveal-bounce 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .neon-scanner-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #00f3ff;
+            box-shadow: 0 0 15px 5px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.4);
+            z-index: 10;
+            animation: scan-line-bounce 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+    </style>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-cyber-900/95', 'backdrop-blur-md', 'border-brand-cyan/20');
+                navbar.classList.remove('border-transparent', 'py-5');
+                navbar.classList.add('py-3');
+            } else {
+                navbar.classList.remove('bg-cyber-900/95', 'backdrop-blur-md', 'border-brand-cyan/20');
+                navbar.classList.add('border-transparent', 'py-5');
+                navbar.classList.remove('py-3');
+            }
+        });
+
+        // Scroll Reveal Animation (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        };
+
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+        
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Cyberpunk Portfolio Filtering Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset styling for all buttons
+                filterBtns.forEach(fBtn => {
+                    fBtn.className = 'filter-btn px-8 py-2 cyber-border-cyan text-brand-cyan font-bold uppercase tracking-widest transition-all bg-cyber-900';
+                });
+
+                // Apply active styling to clicked button
+                btn.className = 'filter-btn active px-8 py-2 bg-brand-cyan text-cyber-900 font-bold uppercase tracking-widest transition-all hover:bg-white hover:shadow-[0_0_15px_#00f3ff]';
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                // Filter items
+                portfolioItems.forEach(item => {
+                    item.classList.remove('reveal', 'active');
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.95)';
+                    
+                    setTimeout(() => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                            void item.offsetWidth; // Trigger reflow
+                            item.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }, 300); // Sync with fade out
+                });
+            });
+        });
+
+        // Modal Functionality
+        function openModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // --- NEW: Optimasi Performa Observasi Section ---
+        const sectionObservers = [];
+        document.querySelectorAll('section').forEach((sec, index) => {
+            let isVisible = index === 0; // True untuk home di awal
+            const obs = new IntersectionObserver((entries) => {
+                const observerObj = sectionObservers.find(o => o.sec === sec);
+                if(observerObj) observerObj.isVisible = entries[0].isIntersecting;
+            }, { threshold: 0.05 });
+            obs.observe(sec);
+            sectionObservers.push({ sec, isVisible });
+        });
+
+        // Cek secara spesifik hero section untuk animasi fireflies & log code
+        function getHeroVisibility() {
+            const heroObj = sectionObservers.find(o => o.sec.id === 'home');
+            return heroObj ? heroObj.isVisible : false;
+        }
+
+        // Lazy loading gambar agar memori RAM tidak penuh di awal
+        document.querySelectorAll('.portfolio-item img').forEach(img => {
+            img.setAttribute('loading', 'lazy');
+            img.setAttribute('decoding', 'async');
+        });
+
+        // Efek Kunang-Kunang Biru (Fireflies Canvas)
+        const canvas = document.getElementById('fireflyCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let fireflies = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Firefly {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.angle = Math.random() * 2 * Math.PI;
+                this.velocity = Math.random() * 0.5 + 0.1;
+                this.alpha = Math.random();
+                this.alphaChange = (Math.random() * 0.02) - 0.01;
+            }
+
+            move() {
+                this.x += Math.cos(this.angle) * this.velocity;
+                this.y += Math.sin(this.angle) * this.velocity;
+                this.angle += (Math.random() * 0.1) - 0.05;
+
+                this.alpha += this.alphaChange;
+                if (this.alpha <= 0.1 || this.alpha >= 1) {
+                    this.alphaChange *= -1;
+                }
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(0, 243, 255, ${this.alpha})`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = `rgba(0, 243, 255, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 75; i++) {
+            fireflies.push(new Firefly());
+        }
+
+        function animateFireflies() {
+            if (getHeroVisibility()) { 
+                ctx.clearRect(0, 0, width, height);
+                fireflies.forEach(firefly => {
+                    firefly.move();
+                    firefly.draw();
+                });
+            }
+            requestAnimationFrame(animateFireflies);
+        }
+
+        animateFireflies();
+
+        // --- NEW: Efek Matrix Multiframe (Tengah, About, Portfolio) ---
+        const matrixCanvases = document.querySelectorAll('.matrix-canvas');
+        const matrixStates = [];
+        const matrixChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZアイウエオカキクケコサシスセソタチツテト'.split('');
+        const fontSize = 16;
+
+        matrixCanvases.forEach(mCanvas => {
+            const mCtx = mCanvas.getContext('2d');
+            let mWidth = mCanvas.width = window.innerWidth;
+            // Gunakan tinggi section tempat canvas berada
+            let parentSection = mCanvas.closest('section');
+            let mHeight = mCanvas.height = parentSection ? parentSection.offsetHeight : window.innerHeight;
+            let columns = mWidth / fontSize;
+            let drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = Math.random() * -100;
+            }
+            matrixStates.push({ canvas: mCanvas, ctx: mCtx, mWidth, mHeight, columns, drops, parent: parentSection });
+        });
+
+        window.addEventListener('resize', () => {
+            matrixStates.forEach(state => {
+                state.mWidth = state.canvas.width = window.innerWidth;
+                state.mHeight = state.canvas.height = state.parent ? state.parent.offsetHeight : window.innerHeight;
+                state.columns = state.mWidth / fontSize;
+                state.drops = [];
+                for (let x = 0; x < state.columns; x++) state.drops[x] = Math.random() * -100;
+            });
+        });
+
+        function drawMatrix() {
+            matrixStates.forEach(state => {
+                // Cek apakah section tempat matrix ini berada sedang terlihat di layar
+                const observerObj = sectionObservers.find(o => o.sec === state.parent);
+                if (observerObj && !observerObj.isVisible) return; // Skip gambar jika tidak terlihat (optimasi performa)
+
+                state.ctx.fillStyle = 'rgba(5, 5, 17, 0.1)';
+                state.ctx.fillRect(0, 0, state.mWidth, state.mHeight);
+                
+                state.ctx.fillStyle = '#00f3ff';
+                state.ctx.font = fontSize + 'px "Chakra Petch", monospace';
+                
+                for (let i = 0; i < state.drops.length; i++) {
+                    const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                    state.ctx.fillText(text, i * fontSize, state.drops[i] * fontSize);
+                    
+                    if (state.drops[i] * fontSize > state.mHeight && Math.random() > 0.975) {
+                        state.drops[i] = 0;
+                    }
+                    state.drops[i]++;
+                }
+            });
+        }
+
+        setInterval(drawMatrix, 50);
+
+        // --- NEW: Efek Scrolling Random Code (Kanan) ---
+        const codeContainer = document.getElementById('scrollingCode');
+        const opCodes = ['SYS_REQ', 'MEM_ALLOC', 'DATA_STREAM', 'NET_SYNC', 'AUTH_BYPASS', 'DECRYPT', 'OVERRIDE', 'PING_NODE'];
+        
+        function generateCodeLine() {
+            const hex1 = Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0').toUpperCase();
+            const hex2 = Math.floor(Math.random() * 0xFFFF).toString(16).padStart(4, '0').toUpperCase();
+            const op = opCodes[Math.floor(Math.random() * opCodes.length)];
+            const isPink = Math.random() > 0.85 ? '<span class="text-brand-pink">!! ERR</span>' : 'OK';
+            
+            return `0x${hex1} [${hex2}] ${op} .. ${isPink}`;
+        }
+
+        let codeLines = [];
+        for (let i = 0; i < 20; i++) {
+            codeLines.push(generateCodeLine());
+        }
+        codeContainer.innerHTML = codeLines.join('<br>');
+
+        setInterval(() => {
+            if (!getHeroVisibility()) return; 
+            codeLines.shift(); 
+            codeLines.push(generateCodeLine()); 
+            codeContainer.innerHTML = codeLines.join('<br>');
+        }, 150);
+
+        // --- NEW: Typewriter Effect ---
+        const typeText = "> Level 10 Illustrator & NFT Architect.\n> Specializing in digital realms, Web3 assets, and hyper-visual interfaces.";
+        const typeContainer = document.getElementById('typewriter-text');
+        let typeIndex = 0;
+
+        function typeWriter() {
+            if (typeIndex < typeText.length) {
+                if (typeText.charAt(typeIndex) === '\n') {
+                    typeContainer.innerHTML += '<br>';
+                } else {
+                    typeContainer.innerHTML += typeText.charAt(typeIndex);
+                }
+                typeIndex++;
+                const typeSpeed = Math.random() * 30 + 40; 
+                setTimeout(typeWriter, typeSpeed);
+            }
+        }
+
+        setTimeout(typeWriter, 1200);
+
+    </script>
+</body>
+</html>
